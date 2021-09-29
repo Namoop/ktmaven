@@ -4,18 +4,23 @@ import com.almasb.fxgl.app.GameApplication
 import com.almasb.fxgl.app.GameSettings
 import com.almasb.fxgl.dsl.*
 import com.almasb.fxgl.dsl.components.ProjectileComponent
+import com.almasb.fxgl.entity.Entity
+import com.almasb.fxgl.input.UserAction
 import javafx.geometry.Point2D
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.util.Duration
 
+
 class KotlinGameApp : GameApplication() {
 
     enum class Type {
         BULLET, TARGET
     }
-    var position = 0.0;
+    private var position = 0.0
+    lateinit var sprite:Entity
+    val spriteSize = 50.0;
 
     override fun initSettings(settings: GameSettings) {
         with(settings) {
@@ -41,6 +46,12 @@ class KotlinGameApp : GameApplication() {
 
     override fun initGame() {
         position = getAppWidth() / 2.0
+        sprite = entityBuilder()
+            .type(Type.SPRITE)
+            .at(position-(spriteSize/2), getAppHeight().toDouble()-35.0)
+            .viewWithBBox(Rectangle(spriteSize, 35.0, Color.GRAY))
+            .buildAndAttach()
+
         run({
             spawnTarget()
         }, Duration.seconds(1.0))
@@ -52,14 +63,14 @@ class KotlinGameApp : GameApplication() {
             target.removeFromWorld()
         }
     }
-
+//coords of spaceship: position, getAppHeight().toDouble()
     private fun shoot() {
         entityBuilder()
             .type(Type.BULLET)
             .at(position, getAppHeight().toDouble())
             .viewWithBBox(Rectangle(10.0, 5.0, Color.BLUE))
             .collidable()
-            .with(ProjectileComponent(Point2D(0.0, -1.0), 350.0))
+            .with(ProjectileComponent(Point2D(0.0, -1.0), 550.0))
             .buildAndAttach()
     }
 
