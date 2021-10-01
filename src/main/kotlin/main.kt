@@ -16,7 +16,7 @@ import javafx.util.Duration
 class KotlinGameApp : GameApplication() {
 
     enum class Type {
-        BULLET, TARGET
+        BULLET, TARGET, SPRITE
     }
     private var position = 0.0
     lateinit var sprite:Entity
@@ -34,12 +34,14 @@ class KotlinGameApp : GameApplication() {
         onKeyDown(KeyCode.SPACE, "Shoot") {
             shoot()
         }
-        UserAction moveLeft = new UserAction("moveLeft")
-        onKeyDown(KeyCode.A, "moveleft") {
-            position -= 10
+        //UserAction moveLeft = new UserAction("moveLeft")
+        onKey(KeyCode.A, "moveleft") {
+            position -= 5
+            sprite.setX(position);
         }
-        onKeyDown(KeyCode.D, "moveright") {
-            position += 10
+        onKey(KeyCode.D, "moveright") {
+            position += 5
+            sprite.setX(position);
         }
 
     }
